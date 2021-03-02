@@ -1,0 +1,189 @@
+:root {
+  --scenePerspective: 1;
+  --scenePerspectiveOriginX: 50;
+  --scenePerspectiveOriginY: 50;
+  --itemZ: 2;
+  --cameraSpeed: 600;
+  --cameraZ: 0;
+  --viewportHeight: 0;
+
+
+  /* --cardBeginRevealD: 2500;
+  --cardEndRevealD: 2250;
+  --sinWordBeginRevealD: 1000;
+  --sinWordEndRevealD: 500;
+  --cardChangeBeginD: 350;
+  --cardChangeEndD: 250; */
+}
+
+.viewport {
+  height: calc(var(--viewportHeight) * 1px);
+  visibility: hidden;
+}
+
+.scene3d-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  perspective: calc(var(--scenePerspective) * var(--cameraSpeed) * 1px);
+  perspective-origin: calc(var(--scenePerspectiveOriginX) * 1%)
+    calc(var(--scenePerspectiveOriginY) * 1%);
+  will-change: perspective-origin;
+  transform: translate3d(0, 0, 0); /* Allow Hardware-Accelerated CSS */
+}
+
+.scene3d {
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--cameraZ) * 1px));
+  will-change: transform;
+}
+
+/* Position all the text */
+.scene3d > div > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.scene3d > div {
+  position: absolute;
+  display: block;
+  /* width: 100%; */
+  /* top: 30%;  */
+  /* should match the --scenePerspectiveOriginY value to make it look like cards are coming head on */
+
+  /* @media only screen and (min-width: 600px) {
+    width: 45%;
+  } */
+  opacity: 0%;
+}
+
+.card {
+  transition: background-color 0.5s linear;
+}
+
+.sin-word {
+  opacity: 0%;
+}
+
+.sin-sentence {
+  opacity: 0%;
+  /* visibility: hidden; */
+  /* transition: visibility 0.5s linear; */
+}
+
+.card:nth-of-type(8n + 1) {
+  top: 0;
+  left: 0;
+}
+
+.card:nth-of-type(8n + 2) {
+  top: 0;
+  right: 0;
+}
+
+.card:nth-of-type(8n + 3) {
+  bottom: 0;
+  right: 0;
+}
+
+.card:nth-of-type(8n + 4) {
+  bottom: 0;
+  left: 0;
+}
+
+.card:nth-of-type(8n + 5) {
+  top: 40%;
+  left: 0;
+}
+
+.card:nth-of-type(8n + 6) {
+  top: 40%;
+  right: 0;
+}
+
+.card:nth-of-type(8n + 7) {
+  top: 0;
+  left: 40%;
+}
+
+.card:nth-of-type(8n) {
+  bottom: 0;
+  left: 40%;
+}
+
+/* .cards-scene > div:nth-child(5n) {
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.cards-scene > div:nth-child(5n + 1) {
+  top: 0;
+  left: 0;
+}
+
+.cards-scene > div:nth-child(5n + 2) {
+  top: 0;
+  right: 0;
+}
+
+.cards-scene > div:nth-child(5n + 3) {
+  bottom: 0;
+  right: 0;
+}
+
+.cards-scene > div:nth-child(5n + 4) {
+  bottom: 0;
+  left: 0;
+} */
+
+.sin-word-scene {
+  transform: translateZ(calc(var(--cameraZ) * 0.3 * 1px));
+}
+
+.sin-word-scene > div {
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.final-scene-card {
+  /* visibility: hidden; */
+  /* transition: visibility 0.5s linear; */
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.very-last-card {
+  /* visibility: hidden; */
+  /* transition: visibility 0.5s linear; */
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+
+/* Position all the text */
+/* .final-scene-words {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+} */

@@ -8,7 +8,7 @@ let cameraSpeed = 600;
 let perspectiveOrigin = { x: 50, y: 50, maxGap: 30 };
 
 let numberOfLayers = 1;
-let numberOfElementsPerLayer =  [1, 1, 8]; //[8, 8, 8]; // [1, 1, 2, 3, 4, 4];
+let numberOfElementsPerLayer =  [1, 1, 1, 1, 2, 2, 3, 4, 5, 6, 7, 8]; //[8, 8, 8]; // [1, 1, 2, 3, 4, 4];
 let revealDistance = 1500; // the distance when we begin to reveal a card
 let changeDistance = 300; // the distance we begin to change a card from the sin word to the sentence
 let finalSceneElementsFadeDistance = -100; // the distance that the final scene card fades out (visibility -> hidden)
@@ -25,12 +25,30 @@ let sinSentences;
 let veryLastWordsZValue = 0;
 let veryLastCard;
 
+let slope = (0.5 - 2) / (8 - 1);
+let b = (1.5 / 7) + 2;
+
+let imageClasses = {};
+let imageClassesArray;
+
+
+
+
 Webflow.push(function () {
   // DOMready has fired
   // May now use jQuery and Webflow api
   window.addEventListener("scroll", moveCamera);
   // window.addEventListener("mousemove", moveCameraAngle);
   getCSSComputedStyles();
+
+  // Pull in image URLs
+  imageClasses['rust'] = $('.rust').css('background-image');
+  imageClasses['flame'] = $('.flame').css('background-image');
+  imageClasses['ink'] = $('.ink').css('background-image');
+  imageClasses['broken-glass'] = $('.broken-glass').css('background-image');
+  imageClasses['broken-concrete'] = $('.broken-concrete').css('background-image');
+  imageClassesArray = Object.keys(imageClasses);
+
 
   const allElements = $('.cards-scene').children();
   finalSceneElements = $('.final-scene-card');
@@ -54,10 +72,18 @@ Webflow.push(function () {
       // const randomY = Math.floor(Math.random() * 100) - 50;
       // const randomY = Math.floor(Math.random() * 50) - 25;
 
+      const numberOfElementsInLayer = (numberOfElementsPerLayer[elementsInLayerArrayIndex] || 8);
       const randomX = 0;
       const randomY = 0;
-      const zValue = itemZ * cameraSpeed * currentLayerNumber + initialDistanceBuffer + (Math.random() * 1500);
-      // give the same value to the next 4 elements
+      const zValue = itemZ * cameraSpeed * 
+        (currentLayerNumber) 
+        + initialDistanceBuffer + 
+        (Math.random() * 300 * numberOfElementsInLayer);
+        // the more elements in layer the more we should spread them out
+
+        //for the distance between layer multiplier, we're doing mx + b where if 1 element in layer, y = 2 and if 8 elements in layer, y = 0.5
+      
+        // give the same value to the next 4 elements
       // add a little bit of variation at the end.
       cardElementsZValues.push(zValue);
 
@@ -67,7 +93,7 @@ Webflow.push(function () {
         currentLayerNumber += 1;
         elementsInLayerArrayIndex += 1;
         numElementsLeftInLayer = elementsInLayerArrayIndex < numberOfElementsPerLayer.length
-          ? numberOfElementsPerLayer[elementsInLayerArrayIndex] : 4;
+          ? numberOfElementsPerLayer[elementsInLayerArrayIndex] : 8;
       }
 
       // $(this).children().each(function() { $(this).text(index) });
@@ -76,7 +102,11 @@ Webflow.push(function () {
     }
   });
 
-  const startZValueForFinalScene = cardElementsZValues[cardElementsZValues.length - 1] + 2000;
+  const startZValueForFinalScene = cardElementsZValues[cardElementsZValues.length - 1] + 3000;
+  console.log(cardElementsZValues);
+  console.log(startZValueForFinalScene);
+
+
   finalSceneElements.each(function(index) {
     const zValue = startZValueForFinalScene + ((index + 1) * 1000);
     $(this).css('transform', `translateZ(-${zValue}px)`);
@@ -112,7 +142,7 @@ Webflow.push(function () {
     }
   });
 
-  veryLastWordsZValue = cardElementsZValues[cardElementsZValues.length - 1] + 1500;
+  veryLastWordsZValue = cardElementsZValues[cardElementsZValues.length - 1] + 2000;
   veryLastCard.css('transform', `translate3d(${0}%, ${0}%, -${veryLastWordsZValue}px`);
   // veryLastCard.css('visibility', 'hidden');
 
@@ -177,12 +207,22 @@ function moveCamera() {
 
   // console.log(window.pageYOffset);
   cardElementsZValues.forEach(function(value, index) {
+    // TODO - store cardElements.eq(index) in a variable for more efficiency???
+
     // console.log(index, value, window.pageYOffset, value - window.pageYOffset);
     const distanceFromUser = value - window.pageYOffset;
     if (index < indexOfFirstSinWordElement) {
+      if (distanceFromUser < cardBeginRevealD + 2000 &&  distanceFromUser > cardBeginRevealD) {
+        resetBackground(cardElements.eq(index));
+        // reset card background while it's still a long way off because it takes time for background change to happen
+      }
+
       if (distanceFromUser < cardBeginRevealD && distanceFromUser > cardEndRevealD) {
         // Transitions for when card is just appearing
         cardElements.eq(index).css('opacity', `${((cardBeginRevealD - distanceFromUser) / cardRevealSpace * 100)}%`);
+        // Also remove sin word and sin sentences just in case they never changed back
+        sinWords.eq(index).css('opacity', `0%`);
+        sinSentences.eq(index).css('opacity', `0%`);
       } else if (distanceFromUser < sinWordBeginRevealD && distanceFromUser > sinWordEndRevealD) {
         // Transitions for when card is traveling toward user (Sin Word being revealed)
         sinWords.eq(index).css('opacity', `${((sinWordBeginRevealD - distanceFromUser) / sinWordRevealSpace * 100)}%`);
@@ -218,7 +258,7 @@ function moveCamera() {
         cardElements.eq(index).css('background-image', 'none');
         cardElements.eq(index).css('background-color', 'white');
       } else if (distanceFromUser > cardChangeBeginD && distanceFromUser < sinWordEndRevealD) {
-        cardElements.eq(index).css('background-color', '#222'); 
+        resetBackground(cardElements.eq(index));
         
         
         
@@ -263,6 +303,18 @@ function moveCamera() {
     veryLastCard.css('opacity', `${100 - (lastWorddistanceFromUser * 1000 / revealDistance / 10) + 10 }%`);
   } else if (lastWorddistanceFromUser > revealDistance && lastWorddistanceFromUser < revealDistance + 200) { // small window for it to change back
     veryLastCard.css('opacity', '0');
+  }
+
+  const zValue = window.pageYOffset;
+  if (zValue > 14000) {
+    $('.card1').css('opacity', `${(zValue - 14000) / (1000) * 100}%`);
+    $('.card2').css('opacity', `${(zValue - 14000) / (1000) * 100}%`);
+  }
+  if (zValue > 15500) {
+    $('.card3').css('opacity', `${(zValue - 15500) / (1000) * 100}%`);
+  }
+  if (zValue > 16500) {
+    $('.card4').css('opacity', `${(zValue - 16500) / (1000) * 100}%`);
   }
 }
 
@@ -320,4 +372,25 @@ function getNumberOfLayers(numberOfCards) {
   }
 
   return curNumLayers;
+}
+
+function resetBackground(element) {
+  classes = element[0].classList;
+  for (let CSSclass of classes) {
+    if (imageClassesArray.includes(CSSclass)) {
+      return element.css('background-image', imageClasses[CSSclass]);
+    }
+  }
+  element.css('background-color', '#191919');
+}
+
+/* Given a list of card elements, position them randomly across the screen.
+ * Ranges: top: -70vh - 130vh, left: -70vw - 130vw
+ */
+
+const range = [-70, 130];
+const middle = 30;
+
+function setFinalCardPositions(cards) {
+
 }

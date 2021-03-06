@@ -66,7 +66,7 @@
 }
 
 .card {
-  transition: background-color 0.5s linear;
+  transition: background-color 0.5s linear, background-image 0.5s linear;
 }
 
 .sin-word {
@@ -79,73 +79,53 @@
   /* transition: visibility 0.5s linear; */
 }
 
+/* Top Left */
 .card:nth-of-type(8n + 1) {
   top: 0;
   left: 0;
 }
 
+/* Bottom Right */
 .card:nth-of-type(8n + 2) {
-  top: 0;
+  bottom: 0;
   right: 0;
 }
 
+/* Left */
 .card:nth-of-type(8n + 3) {
-  bottom: 0;
-  right: 0;
-}
-
-.card:nth-of-type(8n + 4) {
-  bottom: 0;
-  left: 0;
-}
-
-.card:nth-of-type(8n + 5) {
   top: 40%;
   left: 0;
 }
 
+/* Top Right */
+.card:nth-of-type(8n + 4) {
+  top: 0;
+  right: 0;
+}
+
+/* Bottom Left */
+.card:nth-of-type(8n + 5) {
+  bottom: 0;
+  left: 0;
+}
+
+/* Right */
 .card:nth-of-type(8n + 6) {
   top: 40%;
   right: 0;
 }
 
+/* Top */
 .card:nth-of-type(8n + 7) {
   top: 0;
   left: 40%;
 }
 
+/* Bottom */
 .card:nth-of-type(8n) {
   bottom: 0;
   left: 40%;
 }
-
-/* .cards-scene > div:nth-child(5n) {
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.cards-scene > div:nth-child(5n + 1) {
-  top: 0;
-  left: 0;
-}
-
-.cards-scene > div:nth-child(5n + 2) {
-  top: 0;
-  right: 0;
-}
-
-.cards-scene > div:nth-child(5n + 3) {
-  bottom: 0;
-  right: 0;
-}
-
-.cards-scene > div:nth-child(5n + 4) {
-  bottom: 0;
-  left: 0;
-} */
 
 .sin-word-scene {
   transform: translateZ(calc(var(--cameraZ) * 0.3 * 1px));
@@ -178,6 +158,57 @@
   top: 0;
   bottom: 0;
 }
+
+.ending-stack-container {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  perspective: calc(var(--scenePerspective) * var(--cameraSpeed) * 1px);
+  perspective-origin: calc(var(--scenePerspectiveOriginX) * 1%)
+    calc(var(--scenePerspectiveOriginY) * 1%);
+  /* will-change: perspective-origin; */
+  transform: translate3d(0, 0, 0); /* Allow Hardware-Accelerated CSS */
+  z-index: -1;
+}
+
+.ending-stacked-card {
+  position: absolute;
+  transform-style: preserve-3d;
+  transform: translateZ(-700px);
+  opacity: 100%;
+  box-shadow: 0px 20px 20px -10px rgba(0, 0, 0, 0.66);
+}
+
+.card1 {
+  top: 50px;
+  left: 0px;
+}
+
+.card2 {
+  top: 200px;
+  right: -300px;
+}
+
+.card3 {
+  top: -100px;
+  left: -200px;
+}
+
+.card4 {
+  bottom: -200px;
+  right: -100px;
+}
+
+.ending-sentence {
+  opacity: 100%;
+  /* Center all the text */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 
 
 /* Position all the text */

@@ -1,0 +1,685 @@
+:root {
+    --scenePerspective: 1;
+    --scenePerspectiveOriginX: 50;
+    --scenePerspectiveOriginY: 50;
+    --itemZ: 2;
+    --cameraSpeed: 600;
+    --cameraZ: 0;
+    --viewportHeight: 0;
+    --openingSceneHeight: 0;
+  
+  
+    /* --cardBeginRevealD: 2500;
+    --cardEndRevealD: 2250;
+    --sinWordBeginRevealD: 1000;
+    --sinWordEndRevealD: 500;
+    --cardChangeBeginD: 350;
+    --cardChangeEndD: 250; */
+  }
+
+  .w-embed {
+    z-index: 2;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #opening-audio {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 1s linear;
+  }
+  
+  .viewport {
+    transition: opacity 1s ease;
+  }
+
+  .opening-scene {
+    /* visibility: hidden; */
+    height: calc(var(--openingSceneHeight) * 1px);
+  }
+
+  .centered-card {
+    top: 50% !important;
+    left: 50% !important;
+  }
+
+  .enter-sin-room-link {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.2s linear;
+  }
+
+
+  @media screen and (min-height: 1200px) {
+    .enter-sin-room-link {
+        top: 40%;
+    }
+  }
+
+  @media screen and (max-height: 775px) {
+    .enter-sin-room-link {
+        top: 20%;
+    }
+  }
+
+  .main-scene {
+    display: none;
+    opacity: 0;
+    /* visibility: hidden; */
+    /* TODO: Probably should update this variable name */
+    height: calc(var(--viewportHeight) * 1px);
+  }
+
+  /* .autoscroll-controls {
+    display: none;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+  } */
+
+  .sin-room-image {
+    /* mix-blend-mode: darken; */
+  }
+
+  .sin-wall {
+      z-index: -1;
+      /* mix-blend-mode: darken; */
+  }
+
+  .sin-wall-blanks {
+    z-index: -1;
+    /* mix-blend-mode: darken; */
+}
+  
+  .scene3d-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    perspective: calc(var(--scenePerspective) * var(--cameraSpeed) * 1px);
+    perspective-origin: calc(var(--scenePerspectiveOriginX) * 1%)
+      calc(var(--scenePerspectiveOriginY) * 1%);
+    will-change: perspective-origin;
+    transform: translate3d(0, 0, 0); /* Allow Hardware-Accelerated CSS */
+    z-index: 1;
+  }
+  
+  .scene3d {
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--cameraZ) * 1px));
+    will-change: transform;
+    /* background-color: rgba(17,17,17, 50); */
+  }
+  
+  /* Position all the text */
+  /* .card-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+  
+  .scene3d > div {
+    position: absolute;
+    display: block;
+    /* width: 100%; */
+    /* top: 30%;  */
+    /* should match the --scenePerspectiveOriginY value to make it look like cards are coming head on */
+  
+    /* @media only screen and (min-width: 600px) {
+      width: 45%;
+    } */
+    /* opacity: 0%; */  
+    /* updated Sat morning will cause all things to show up by default */
+  }
+
+  .user-instruction-text {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    opacity: 0%;
+    transition: opacity 0.5s linear 0s;
+  }
+
+  .mouse-to-explore {
+    bottom: 20%;
+  }
+
+  .scroll-to-move {
+      bottom: 43%;
+  }
+
+  .click-select-card {
+    bottom: 50%;
+  }
+
+  .sin-room-image {
+    position: absolute;
+    top: -5%;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 100%;
+  }
+
+  .sin-room-spotlight {
+    /* transition: background-image 5s ease-in-out; */
+    background-image: radial-gradient(
+        circle,
+        transparent 0px,
+        rgba(17, 17, 17, 1) 0px
+    );
+    /* Make everything zero because we don't want to actually show the circle yet */
+    /* transition: opacity 1s linear 0s; */
+  }
+
+  .sin-wall {
+    transition: opacity 5s linear 0s;
+    opacity: 0;
+  }
+
+  .sin-wall-blanks {
+    transition: opacity 5s linear 0s;
+    opacity: 0;
+  }
+
+  .opening-mark-7-begin, .opening-mark-7-end {
+    /* visibility: hidden; */
+    /* transition: visibility 0.5s linear; */
+    margin: auto;
+    left: 0;
+    right: 0;
+  }
+
+  .opening-mark-7-begin {
+    top: 29%;
+    /* top: 40%; */
+    /* bottom: 0; */
+    transition: top 0.7s linear 0s;
+  }
+
+  .opening-mark-7-begin > div {
+    opacity: 0%;
+    transition: opacity 0.4s linear;
+  }
+
+  .opening-mark-7-end {
+    opacity: 0%;
+    bottom: 25%;
+    transition: opacity 2s linear;
+  }
+
+  /* .psalm-53 {
+    opacity: 0%;
+    transition: opacity 1s linear 0s;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 30%;
+    bottom: 0;
+  } */
+  
+  .sin-room-card {
+    /* transition: background-color 5s linear, background-image 5s linear; */
+    opacity: 0%;
+    background-color: rgba(17,17,17,1.0);
+  }
+
+  .sin-room-card:hover {
+    cursor: pointer;
+  }
+  
+  /* Top Left */
+  .sin-room-card:nth-of-type(8n + 1) {
+    top: 0;
+    left: 0;
+  }
+  
+  /* Bottom  */
+  .sin-room-card:nth-of-type(8n + 2) {
+    bottom: -15%;
+    left: 25%;
+  }
+  
+  /* Top Right */
+  .sin-room-card:nth-of-type(8n + 3) {
+    top: 0;
+    right: 0;
+  }
+  
+  /* Left */
+  .sin-room-card:nth-of-type(8n + 4) {
+    top: 20%;
+    left: 0;
+  }
+  
+  /* Bottom Right */
+  .sin-room-card:nth-of-type(8n + 5) {
+    bottom: 0;
+    right: 0;
+  }
+  
+  /* Top */
+  .sin-room-card:nth-of-type(8n + 6) {
+    top: -15%;
+    left: 25%;
+  }
+  
+  /* Bottom Left */
+  .sin-room-card:nth-of-type(8n + 7) {
+    bottom: 0;
+    left: 0;
+  }
+  
+  /* Right */
+  .sin-room-card:nth-of-type(8n) {
+    top: 20%;
+    right: 0;
+  }
+
+  .sin-room-card-button {
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    /* border: 1px solid #FFB10C; */
+    background-color: #FFB10C;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    z-index: 1;
+    /* left: calc((510px / 2) - 20px - (10px)); */
+    /* width of card / 2 - radius of circle - border */
+    top: 75%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .sin-room-card-button:before,
+  .sin-room-card-button:after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      right: 20%;
+      bottom: 20%;
+      background: white;
+      transition: transform .4s ease-in-out;
+  }
+  
+  .sin-room-card-button:before{
+      width: 2px;
+      margin: 2px auto;
+  }
+  .sin-room-card-button:after{
+      margin: auto 2px;
+      height: 2px;
+  }
+  
+  .sin-room-card-button-clicked {
+    opacity: 1;
+    /* border-color: #FF4133; */
+    background-color: #FF4133;
+  }
+  
+  .sin-room-card-button-clicked:before,
+  .sin-room-card-button-clicked:after {
+    /* background: #FF4133; */
+    transform: rotate(45deg);
+  }
+  
+  /* .button {
+    position: absolute;
+    width: 107px;
+    height: 107px;
+    border: 1px solid #FF4133;
+    color: #FF4133;
+    font-size: 80px;
+  } */
+  
+  /* .button::before {
+    content: '+';
+  }
+  
+  /* Top Left */
+  /* .card:nth-of-type(8n + 1) .button {
+    bottom: 0;
+    right: 0;
+    border-radius: 107px 0 0 0;
+    -moz-border-radius: 107px 0 0 0;
+    -webkit-border-radius: 107px 0 0 0;
+    line-height: 125px;
+    padding-left: 36px;
+  } */
+  
+  /* Bottom Right */
+  /* .card:nth-of-type(8n + 2) .button {
+    border-radius: 0 0 107px 0;
+    -moz-border-radius: 0 0 107px 0;
+    -webkit-border-radius: 0 0 107px 0;
+    line-height: 90px;
+    padding-left: 15px;
+  } */
+  
+  /* Top Right */
+  /* .card:nth-of-type(8n + 4) .button {
+    left: 0;
+    bottom: 0;
+    border-radius: 0 107px 0 0;
+    -moz-border-radius: 0 107px 0 0;
+    -webkit-border-radius: 0 107px 0 0;
+    line-height: 125px;
+    padding-left: 18px;
+  } */
+  
+  /* Bottom Left */
+  /* .card:nth-of-type(8n + 5) .button {
+    top: 0;
+    right: 0;
+    border-radius: 0 0 0 107px;
+    -moz-border-radius: 0 0 0 107px;
+    -webkit-border-radius: 0 0 0 107px;
+    line-height: 90px;
+    padding-left: 40px;
+  } */
+  
+  .og-card-parent, .new-card-parent {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(512px - 20px); 
+    height: calc(352px - 20px);
+    box-sizing: content-box;
+    /* Card height and width are 160px bigger with 80px padding (set in Webflow) */
+    /* Subtract 20 to account for the borders */
+    border: 10px solid transparent;
+    transition: border 0.4s linear;
+    mix-blend-mode: darken;
+  }
+
+  .og-card-parent {
+    z-index: 1; 
+    /* filter: brightness(70%); */
+    /* hack - you should reorder the html */
+  }
+  
+  .new-card-parent {
+    opacity: 100%;
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.33);
+    /* filter: brightness(20%); */
+  }
+
+  .sin-card-yellow-border {
+    border: 10px solid #FFB10C;
+  }
+  
+  .sin-card-red-border {
+    border: 10px solid #FF4133;
+  }
+  
+  .sin-word {
+    opacity: 100%;
+  }
+  
+  .outline-sin-word {
+    top: 0px;
+    margin-top: 35px;
+    position: absolute;
+    /* color: #4C4F5C !important; */
+    /* -webkit-text-stroke: 2px #FF4133; */
+    opacity: 100%;
+    transition: color 0.4s ease-out;
+  }
+  
+  /* .fill-in {
+    color: #FF4133 !important;
+    -webkit-text-stroke: 0px;
+  } */
+
+  .sin-sentence {
+      padding: 0px 30px;
+  }
+  
+  
+  .sin-word-scene {
+    transform: translateZ(calc(var(--cameraZ) * 0.3 * 1px));
+  }
+  
+  .sin-word-scene > div {
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  
+  .final-scene-card {
+    /* visibility: hidden; */
+    /* transition: visibility 0.5s linear; */
+    opacity: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 30%;
+    bottom: 0;
+  }
+  
+  .very-last-card {
+    /* visibility: hidden; */
+    /* transition: visibility 0.5s linear; */
+    opacity: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 5%;
+    bottom: 0;
+  }
+  
+  .ending-stack-container {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    perspective: calc(var(--scenePerspective) * var(--cameraSpeed) * 1px);
+    perspective-origin: calc(var(--scenePerspectiveOriginX) * 1%)
+      calc(var(--scenePerspectiveOriginY) * 1%);
+    /* will-change: perspective-origin; */
+    transform: translate3d(0, 0, 0); /* Allow Hardware-Accelerated CSS */
+    z-index: -1;
+  }
+  
+  .ending-stacked-card {
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: translateZ(-700px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0%;
+    box-shadow: 0px 20px 20px -10px rgba(0, 0, 0, 0.66);
+  }
+  
+  .ending-sentence {
+    opacity: 100%;
+    padding: 0px 30px;
+  }
+
+  .ending-sin-cards-image {
+    position: fixed;
+    width: 200%;
+    max-width: 200%; /* Override webflow */
+    height: 175%;
+    top: -45%;
+    left: -50%;
+    /* visibility: hidden; */
+    opacity: 0;
+    transition: opacity 0.5s ease-in 1s;
+  }
+
+  .show-50 {
+    /* visibility: visible; */
+    opacity: 50%;
+  }
+  
+  .open-comments-btn-container {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+    transition-delay: 3s;
+    z-index: 1;
+  }
+  
+  .show {
+    opacity: 100%;
+    /* visibility: visible; */
+  }
+  
+  /* Position all the text */
+  /* .final-scene-words {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+  
+  .sin-room-comments-wrapper {
+    display: none;
+    /* height: 200vh; */
+    /* display: block; */
+    opacity: 0;
+    height: 100vh;
+    position: relative;
+    transition: opacity 1s ease-in;
+    z-index: 0;
+    
+  }
+  
+  .sin-room-comments {
+    padding: 0;
+    max-width: 100%;
+    /* color: #04091C;
+    font-size: 21px;
+    line-height: 120%; */
+    transition: opacity 1s ease-out;
+    padding-bottom: 100px;
+  }
+  
+  .sin-room-comment-item {
+    padding: 20px;
+    box-sizing: border-box;
+    display: inline;
+    width: 33.33%;
+  }
+  
+  /* .sin-room-comment-item .item {
+    background-color: #F4F1F2;
+    padding: 24px;
+  }
+   */
+  
+   .sin-room-comment-item .name {
+    /* font-family: 'Patrick Hand', cursive;
+    font-weight: 700;
+    padding-bottom: 0; */
+    padding-top: 12px;
+    opacity: 50%;
+  }
+  
+  .sin-room-comment-item .comment {
+    /* font-family: 'Shadows Into Light', cursive; */
+    /* padding-top: 24px; */
+  }
+
+  .sin-room-comment-submission {
+    position: fixed;
+    bottom: 0;
+    right: 120px;
+    z-index: 1;
+    /* Layer it above the footer */
+    font-family: 'Open Sans';
+    font-weight: 400;
+    color: #A89D9C;
+  }
+
+  .sin-room-comment-submission-message {
+    display: none;
+    bottom: 28px;
+  }
+  
+  .sin-room-comment-submission-container {
+    width: 408px;
+    height: 434px;
+    padding: 24px;
+  }
+  
+  .sin-room-comment-submission-container textarea {
+    width: 100%;
+    /* subtract padding */
+    min-height: 315px;
+    resize: none;
+    margin-bottom: 18px;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .sin-room-comment-submission-container .input {
+    display: inline-block;
+    width: 232px;
+    height: 53px;
+    padding: 10px;
+  }
+
+  .sin-room-comment-submission-container .submit {
+    float: right;
+    width: 114px;
+    height: 53px;
+    padding-top: 14px;
+    font-size: 21px;
+    font-weight: 700;
+    border: 2px solid #A89D9C;
+    box-sizing: border-box;
+    border-radius: 4px;
+    /* color:#04091C; */
+    color: #A89D9C;
+    background-color: transparent;
+  }
+
+  .sin-room-comment-submission-container .submit:hover {
+    cursor: default;
+  }
+
+  .sin-room-comment-submission-container .submit-allowed {
+    color:#04091C;
+  }
+
+  .sin-room-comment-submission-container .submit-allowed:hover {
+    cursor: pointer;
+  }
+  
+  
+  .comments-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  

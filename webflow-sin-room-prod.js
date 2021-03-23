@@ -1,4 +1,4 @@
-const prodFlag = false;
+const prodFlag = true;
 
 /* 
 Actual Values stored in CSS. Defaults are here just in case.

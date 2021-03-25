@@ -57,7 +57,7 @@ function main() {
   // based on layers from card spreadsheet
   let numberOfElementsPerLayer =  [1, 2, 1, 2, 2, 3, 4, 4, 4, 4, 5, 4, 5, 7, 4];
   //[1, 1, 2, 2, 3, 3, 4, 5, 6, 6, 6, 7, 7, 7, 7, 8]; //[1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 2, 2, 3, 3, 0, 4, 4, 4, 5, 5, 5, 6, 6];
-  let revealDistance = 1500; // the distance when we begin to reveal a card - only used for final card now
+  let revealDistance = 1700; // the distance when we begin to reveal a card - only used for final card now
   let changeDistance = 300; // the distance we begin to change a card from the sin word to the sentence
   let finalSceneElementsFadeDistance = -100; // the distance that the final scene card fades out (visibility -> hidden)
   let initialDistanceBuffer = 800; // + 2700; // initial buffer + viewport height of initial scene so we don't have to restart scrolling at top

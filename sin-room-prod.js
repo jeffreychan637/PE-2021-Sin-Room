@@ -113,18 +113,20 @@ function main() {
   }
 
   function onSinCardHover() {
-    const { ogParentCard, newParentCard, button } = getThisCardElements($(this));
+    const { ogParentCard, newParentCard, button, sinWord, sinSentence } = getThisCardElements($(this));
     if (!button.hasClass('sin-room-card-button-clicked')) {
       button.addClass('show');
+      sinWord.addClass('yellow-text');
       ogParentCard ? ogParentCard.addClass('sin-card-yellow-border') : 0;
       newParentCard ? newParentCard.addClass('sin-card-yellow-border') : 0;
     }
   }
 
   function onSinCardEndHover() {
-    const { ogParentCard, newParentCard, button } = getThisCardElements($(this));
+    const { ogParentCard, newParentCard, button, sinWord, sinSentence } = getThisCardElements($(this));
     if (!button.hasClass('sin-room-card-button-clicked')) {
       button.removeClass('show');
+      sinWord.removeClass('yellow-text');
       ogParentCard ? ogParentCard.removeClass('sin-card-yellow-border') : 0;
       newParentCard ? newParentCard.removeClass('sin-card-yellow-border') : 0;
     }
@@ -135,16 +137,14 @@ function main() {
 
     if (!button.hasClass('sin-room-card-button-clicked')) {
       button.addClass('sin-room-card-button-clicked');
+      sinWord.addClass('red-text');
       ogParentCard ? ogParentCard.addClass('sin-card-red-border') : 0;
-      if (newParentCard) {
-        newParentCard.addClass('sin-card-red-border');
-      }
+      newParentCard ? newParentCard.addClass('sin-card-red-border') : 0;
     } else {
       button.removeClass('sin-room-card-button-clicked');
-      ogParentCard ? ogParentCard.removeClass('sin-card-red-border'): 0;
-      if (newParentCard) {
-        newParentCard.removeClass('sin-card-red-border');
-      }
+      sinWord.removeClass('red-text');
+      ogParentCard ? ogParentCard.removeClass('sin-card-red-border') : 0;
+      newParentCard ? newParentCard.removeClass('sin-card-red-border') : 0;
     }
     if (sinWord) {
       DigitalWallet.write(sinWord.text().toLocaleUpperCase());

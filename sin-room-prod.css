@@ -262,6 +262,8 @@
   top: 75%;
   left: 50%;
   transform: translateX(-50%);
+
+  display: none;
 }
 
 .sin-room-card-button:before,
@@ -333,22 +335,43 @@
   border: 10px solid #FF4133;
 }
 
-.sin-word {
-  opacity: 100%;
+.card-text.sin-word {
+  color: white;
+  transition: color 0.4s linear;
+}
+
+.card-text.sin-word.yellow-text {
+  color: #FFB10C;
+}
+
+.card-text.sin-word.red-text {
+  color: #FF4133;
 }
 
 .outline-sin-word {
   top: 0px;
-  margin-top: 35px;
+  margin-top: 40px;
   position: absolute;
-  /* color: #4C4F5C !important; */
-  /* -webkit-text-stroke: 2px #FF4133; */
   opacity: 100%;
-  transition: color 0.4s ease-out;
+  transition: color 0.4s linear;
 }
+
+.card-text.outline-sin-word {
+  color: white;
+}
+
+.card-text.outline-sin-word.yellow-text {
+  color: #FFB10C;
+}
+
+.card-text.outline-sin-word.red-text {
+  color: #FF4133;
+}
+
 
 .sin-sentence {
     padding: 0px 30px;
+    margin-top: 35px;
 }
 
 

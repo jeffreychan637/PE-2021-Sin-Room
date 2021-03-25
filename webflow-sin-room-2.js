@@ -41,9 +41,6 @@ let b = (1.5 / 7) + 2;
 let endingStackedCards;
 let stackedCardsArray = [];
 
-let mansonry;
-let commentsContainer;
-
 /* Given a list of card elements, position them randomly across the screen.
  * Ranges: top: -70vh - 130vh, left: -70vw - 130vw
  */
@@ -205,8 +202,6 @@ Webflow.push(function () {
   veryLastCard = $('.very-last-card');
   endingStackedCards = $('.ending-stacked-card');
 
-  commentsContainer = $('.sin-room-comments');
-
   cardElements = $('.card');  // $('.cards-scene').children();
   numberOfLayers = getNumberOfLayers(cardElements.length);
 
@@ -314,15 +309,15 @@ Webflow.push(function () {
   $('.viewport').css('visibility', 'visible');
 
   // Auto Scroll Testing
-  // $('html, body').animate({ 
-  //   scrollTop: document.body.clientHeight - window.innerHeight
-  // }, 90000, "linear");
+  $('html, body').animate({ 
+    scrollTop: document.body.clientHeight - window.innerHeight
+  }, 90000, "linear");
 
   $('.viewport').click(function() {
     $('html, body').stop();
   })
 
-  waitForFirebase();
+  setupCommentsSection();
 
   // $('.sin-word-scene').children().each(function(index) {
   //   const zValue = Math.floor(((itemZ / 1) * cameraSpeed * numberOfLayers) / 2 * (index + 1)) + initialDistanceBuffer;
@@ -394,22 +389,37 @@ function moveCamera() {
     if (index < indexOfFirstSinWordElement) {
       // get the second child of the current card element
       // is is an empty object if the card does not have a newCardParent
-      const newCardParent = $(cardElements.eq(index).children()[1]);
-      let hasNewCardParent = newCardParent.length;
+      let oldCardParent;
+      let newCardParent;
+      const cardParent = $(cardElements.eq(index).children()[0]);
+      if  (cardParent.hasClass('og-card-parent')) {
+        oldCardParent = cardParent;
+        if ($(cardElements.eq(index).children()[1]).length) {
+            newCardParent = $(cardElements.eq(index).children()[1]); // TODO: cleanup
+        }
+      } else {
+          newCardParent = cardParent;
+      }
+    //   const newCardParent = $(cardElements.eq(index).children()[1]);
+    //   let hasNewCardParent = newCardParent.length;
 
       if (distanceFromUser < cardBeginRevealD && distanceFromUser > cardEndRevealD) {
         // Transitions for when card is just appearing
         cardElements.eq(index).css('opacity', `${((cardBeginRevealD - distanceFromUser) / cardRevealSpace * 100)}%`);
         // Also reset cards (e.g. remove sin word and sin sentences) just in case they never changed back
-        ogCardParents.eq(index).css('opacity', `100%`);
-        sinWords.eq(index).css('opacity', `0%`);
-        if (hasNewCardParent) {
-          newCardParent.css('opacity', `0%`);
+        if (oldCardParent) {
+            ogCardParents.eq(index).css('opacity', `100%`);
+            sinWords.eq(index).css('opacity', `0%`);
+            if (newCardParent) {
+                newCardParent.css('opacity', `0%`);
+            }
+        } else if (newCardParent) {
+            newCardParent.css('opacity', `100%`);
         }
-      } else if (distanceFromUser < sinWordBeginRevealD && distanceFromUser > sinWordEndRevealD) {
+      } else if (oldCardParent && distanceFromUser < sinWordBeginRevealD && distanceFromUser > sinWordEndRevealD) {
         // Transitions for when card is traveling toward user (Sin Word being revealed)
         sinWords.eq(index).css('opacity', `${((sinWordBeginRevealD - distanceFromUser) / sinWordRevealSpace * 100)}%`);
-      } else if (hasNewCardParent && distanceFromUser < cardChangeBeginD && distanceFromUser > cardChangeEndD) {
+      } else if (newCardParent && oldCardParent && distanceFromUser < cardChangeBeginD && distanceFromUser > cardChangeEndD) {
         // Transtions for when card is right up to the user (Card change happening to reveal sin sentence)
         ogCardParents.eq(index).css('opacity', `${100 - ((cardChangeBeginD - distanceFromUser) / cardChangeSpace * 100)}%`);
         newCardParent.css('opacity', `${((cardChangeBeginD - distanceFromUser) / cardChangeSpace * 100)}%`);
@@ -424,16 +434,18 @@ function moveCamera() {
         }
         if (distanceFromUser < sinWordEndRevealD && distanceFromUser > cardChangeBeginD) {
           // complete show the sin word after reveal time unless we've hit the card change time (since that's when sin word begins to fade)
-          ogCardParents.eq(index).css('opacity', `100%`);
-          sinWords.eq(index).css('opacity', `100%`);
-          if (hasNewCardParent) {
+          if (oldCardParent) {
+            ogCardParents.eq(index).css('opacity', `100%`);
+            sinWords.eq(index).css('opacity', `100%`);
+          }
+          if (newCardParent && !oldCardParent) {
             newCardParent.css('opacity', `0%`);
           }
-        } else if (distanceFromUser > sinWordBeginRevealD && distanceFromUser < cardBeginRevealD) {
+        } else if (oldCardParent && distanceFromUser > sinWordBeginRevealD && distanceFromUser < cardBeginRevealD) {
           // hide sin word before reveal time [ stop checking if we haven't even revealed the card yet ]
           sinWords.eq(index).css('opacity', `0%`);
         }
-        if (hasNewCardParent && distanceFromUser < cardChangeEndD) {
+        if (newCardParent && distanceFromUser < cardChangeEndD) {
           // sinWords.eq(index).css('opacity', `${sinWordMinOpacity}%`);
           ogCardParents.eq(index).css('opacity', `0%`);
           newCardParent.css('opacity', `100%`);
@@ -615,7 +627,6 @@ function enterCommentsSection() {
   
   window.setTimeout(function() {
     viewport.css('display', 'none');
-    commentsContainer.css('opacity', '0%');
     window.scrollTo(0, 0);
     $('.sin-room-comments-wrapper').css('display', 'block');
     // window.scrollTo(0, document.body.scrollHeight);
@@ -624,91 +635,31 @@ function enterCommentsSection() {
     }, 1400, "linear", function() {
       // after auto scroll, set container to be fixed in place
       commentsWrapper.css('height', '100vh');
-      if (mansonry) {
-        mansonry.layout();
-        setTimeout(function() {
-          commentsContainer.css('opacity', '100%');
-        }, 1000); // after masonry layout is done
-      }
     });
   }, 500); // wait till after fixed elements in sin room finish fading
 }
 
-function setupCommentsSection(comments) {
-  for (let comment of comments) {
-    $('<div />', {
-      "class": 'sin-room-comment-item',
-      html: `<div class="item name">${comment.name}</div>
-            <div class="item comment">${comment.body}</div>`,
-    }).appendTo(commentsContainer);
-
-
-    // const commentWrapperDiv = document.createElement('div');
-    // const nameDiv = document.createElement('div');
-    // const commentDiv = document.createElement('div');
-    
-    // nameDiv.appendChild(commentDiv);
-    // commentWrapperDiv.appendChild(nameDiv);
-    
-    // commentsContainer.appendChild(commentDiv);
-  }
-  
-  const commentsContainerPJS = document.querySelector('.sin-room-comments'); // plain JS
-  mansonry = new Masonry(commentsContainerPJS, {
-    itemSelector: ".sin-room-comment-item"
-  });
+function setupCommentsSection() {
   // This could have easily been done in Webflow. I didn't like their very specific
   // format for forms that we'd be forced to use though, so I decided to just do this manually myself.
-  // const commentSubmissionBox = document.querySelector('.sin-room-comment-submission-container');
-  // const textarea = document.createElement('textarea');
-  // textarea.placeholder = 'How did you relate to the crowd?';
+  const commentSubmissionBox = document.querySelector('.sin-room-comment-submission-container');
+  const textarea = document.createElement('textarea');
+  textarea.placeholder = 'How did you relate to the crowd?';
   
-  // const input = document.createElement('input');
-  // input.placeholder = 'Name (optional)';
+  const input = document.createElement('input');
+  input.placeholder = 'Name (optional)';
   
-  // const button = document.createElement('button');
-  // button.textContent = 'Submit';
+  const button = document.createElement('button');
+  button.textContent = 'Submit';
 
-  // commentSubmissionBox.appendChild(textarea);
-  // commentSubmissionBox.appendChild(input);
-  // commentSubmissionBox.appendChild(button);
+  commentSubmissionBox.appendChild(textarea);
+  commentSubmissionBox.appendChild(input);
+  commentSubmissionBox.appendChild(button);
+  
+  fetchComments();
 }
 
-function waitForFirebase() {
-  console.log('waiting for firebase');
-  if (!firebase) {
-    setTimeout(waitForFirebase, 1000);
-  } else {
-    console.log('firebase loaded');
-    fetchComments();
-  }
-}
-
-async function fetchComments() {
-  // Firebase script must run first and define firebase as global variable
-  if (firebase) {
-    const database = firebase.database();
-    // database.child('en').child('sin').get().then(function(snapshot) {
-    //   if (snapshot.exists()) {
-    //     console.log(snapshot.val());
-    //     setupCommentsSection(snapshot);
-    //   }
-    //   else {
-    //     console.log("No comments available");
-    //   }
-    // }).catch(function(error) {
-    //   console.error(error);
-    // });
-
-    const data = await fetch(
-      `https://jsonplaceholder.typicode.com/comments`
-    )
-    const comments = await data.json();
-    console.log(comments);
-    setupCommentsSection(comments);
-  }
-
-
+function fetchComments() {
   // make sure runs asynchronously fetching comments in background
   // once comments arrive, place them into grid
 }

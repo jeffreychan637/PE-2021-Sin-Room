@@ -1,0 +1,209 @@
+<div class="audio-player">
+  <div class="audio-player__play-button" id="play-btn">
+    <span class="audio-player__icon audio-player__pause-icon"></span>
+    <span class="audio-player__icon audio-player__play-icon"></span>
+  </div>
+  <div class="audio-wrapper" id="player-container" href="javascript:;">
+  <! –– Narration ––>
+    <audio
+      class="narration"
+      id="player"
+      src=""
+      autoplay
+      ontimeupdate="initProgressBar()"
+    ></audio>
+  </div>
+  <div class="audio-player__controls scrubber">
+    <progress id="seekObj" value="0" max="1"></progress>
+  </div>
+  <div class="audio-player__narration-timer start-time">0:00</div>
+</div>
+
+<style>
+
+.audio-player__narration-timer {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+  text-align: right;
+}
+
+.audio-player {
+  display: flex;
+  width: 400px;
+  height: 60px;
+  align-items: center;
+  margin-top: 0 !important;
+}
+
+.audio-player__icon  {
+  width: 13px;
+  height: 14px;
+  background-color: black;
+}
+
+.audio-player__play-button {
+  cursor: pointer;
+  z-index: 10;
+  width: 13px;
+  height: 14px;
+}
+
+.audio-player__play-icon {
+  display: inline-block;
+  background-image: url(https://uploads-ssl.webflow.com/6024a322064aac4f0aa33a42/6059178103728a9703e67ed9_icon-play-darkmode.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.audio-player__pause-icon {
+  display: none;
+  background-image: url(https://uploads-ssl.webflow.com/6024a322064aac4f0aa33a42/6059177e4e84d34bcbddf032_icon-pause-darkmode.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.audio-player__controls {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  color: #808080;
+  position: relative;
+  width: 100%;
+}
+
+progress {
+  height: 0px;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #FFFFFF
+  -webkit-appearance: none;
+}
+
+progress[value] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #4C4F5C;
+  color: #FFFFFF;
+  height: 0px;
+}
+
+progress[value]::-webkit-progress-bar {
+  border: 1px solid #4C4F5C;
+}
+
+progress::-webkit-progress-value {
+  border: 1px solid #FFFFFF;
+}
+
+progress::-moz-progress-bar {
+  border: 1px solid #FFFFFF;
+}
+</style>
+
+<script>
+function calculateTotalValue(length) {
+  var minutes = Math.floor(length / 60),
+      seconds_int = length - minutes * 60,
+      seconds_str = seconds_int.toString(),
+      seconds = seconds_str.substr(0, 2),
+      time = minutes + ':' + seconds
+  return time;
+}
+
+function calculateCurrentValue(currentTime) {
+  var current_hour = parseInt(currentTime / 3600) % 24,
+      current_minute = parseInt(currentTime / 60) % 60,
+      current_seconds_long = currentTime % 60,
+      current_seconds = current_seconds_long.toFixed(),
+      current_time = (current_minute < 10 ? "0" + current_minute : current_minute) + ":" + (current_seconds < 10 ? "0" + current_seconds : current_seconds);
+  return current_time;
+}
+
+function initProgressBar() {
+  var audioPlayer = document.getElementById('player');
+  var length = audioPlayer.duration
+  var current_time = audioPlayer.currentTime;
+
+  // calculate total length of value
+  var totalLength = calculateTotalValue(length)
+  jQuery(".end-time").html(totalLength);
+
+  // calculate current value time
+  var currentTime = calculateCurrentValue(current_time);
+  jQuery(".start-time").html(currentTime);
+
+  var progressbar = document.getElementById('seekObj');
+  let currentDuration = isNaN(audioPlayer.duration) ? 1 : audioPlayer.duration
+  progressbar.value = (audioPlayer.currentTime / currentDuration);
+  progressbar.addEventListener("click", seek);
+
+  if (audioPlayer.currentTime == audioPlayer.duration) {
+    $('#play-btn .fas').removeClass('fa-pause').addClass('fa-play');
+  }
+
+  function seek(evt) {
+    var percent = evt.offsetX / this.offsetWidth;
+    audioPlayer.currentTime = percent * audioPlayer.duration;
+    progressbar.value = percent / 100;
+  }
+};
+
+// Controls & Sounds Methods
+// ----------------------------------------------------------
+function togglePlay() {
+  var audioPlayer = document.getElementById('player');
+  if (audioPlayer.paused === false) {
+    audioPlayer.pause();
+
+  } else {
+    audioPlayer.play();
+  }
+}
+
+function initPlayers(num) {
+  // pass num in if there are multiple audio players e.g 'player' + i
+
+  for (var i = 0; i < num; i++) {
+    (function() {
+
+      // Variables
+      // ----------------------------------------------------------
+      // audio embed object
+      var playerContainer = document.getElementById('player-container'),
+      audioPlayer = document.getElementById('player'),
+        isPlaying = false,
+        playBtn = document.getElementById('play-btn');
+
+      // Controls Listeners
+      // ----------------------------------------------------------
+      if (playBtn != null) {
+        playBtn.addEventListener('click', function() {
+          togglePlay();
+        });
+      }
+    }());
+  }
+}
+
+var Webflow = Webflow || [];
+
+Webflow.push(function () {
+  var $pause = $('.audio-player__pause-icon');
+  var $play = $('.audio-player__play-icon');
+  var $audioPlayer = $('#player');
+
+  $audioPlayer.on('play', function() {
+    $pause.css('display', 'inline-block');
+    $play.css('display', 'none');
+  });
+
+  $audioPlayer.on('pause', function() {
+    $pause.css('display', 'none');
+    $play.css('display', 'inline-block');
+  });
+
+  initPlayers(jQuery('#player-container').length);
+});
+</script>

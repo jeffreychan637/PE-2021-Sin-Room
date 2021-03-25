@@ -1,0 +1,429 @@
+:root {
+    --scenePerspective: 1;
+    --scenePerspectiveOriginX: 50;
+    --scenePerspectiveOriginY: 50;
+    --itemZ: 2;
+    --cameraSpeed: 600;
+    --cameraZ: 0;
+    --viewportHeight: 0;
+  
+  
+    /* --cardBeginRevealD: 2500;
+    --cardEndRevealD: 2250;
+    --sinWordBeginRevealD: 1000;
+    --sinWordEndRevealD: 500;
+    --cardChangeBeginD: 350;
+    --cardChangeEndD: 250; */
+  }
+  
+  .viewport {
+    height: calc(var(--viewportHeight) * 1px);
+    visibility: hidden;
+    transition: opacity 1s ease;
+  }
+  
+  .scene3d-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    perspective: calc(var(--scenePerspective) * var(--cameraSpeed) * 1px);
+    perspective-origin: calc(var(--scenePerspectiveOriginX) * 1%)
+      calc(var(--scenePerspectiveOriginY) * 1%);
+    will-change: perspective-origin;
+    transform: translate3d(0, 0, 0); /* Allow Hardware-Accelerated CSS */
+  }
+  
+  .scene3d {
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--cameraZ) * 1px));
+    will-change: transform;
+  }
+  
+  /* Position all the text */
+  .card-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .scene3d > div {
+    position: absolute;
+    display: block;
+    /* width: 100%; */
+    /* top: 30%;  */
+    /* should match the --scenePerspectiveOriginY value to make it look like cards are coming head on */
+  
+    /* @media only screen and (min-width: 600px) {
+      width: 45%;
+    } */
+    opacity: 0%;
+  }
+  
+  .card {
+    transition: background-color 5s linear, background-image 5s linear;
+  }
+  
+  /* Top Left */
+  .card:nth-of-type(8n + 1) {
+    top: 0;
+    left: 0;
+  }
+  
+  /* Bottom Right */
+  .card:nth-of-type(8n + 2) {
+    bottom: 0;
+    right: 0;
+  }
+  
+  /* Left */
+  .card:nth-of-type(8n + 3) {
+    top: 40%;
+    left: 0;
+  }
+  
+  /* Top Right */
+  .card:nth-of-type(8n + 4) {
+    top: 0;
+    right: 0;
+  }
+  
+  /* Bottom Left */
+  .card:nth-of-type(8n + 5) {
+    bottom: 0;
+    left: 0;
+  }
+  
+  /* Right */
+  .card:nth-of-type(8n + 6) {
+    top: 40%;
+    right: 0;
+  }
+  
+  /* Top */
+  .card:nth-of-type(8n + 7) {
+    top: 0;
+    left: 40%;
+  }
+  
+  /* Bottom */
+  .card:nth-of-type(8n) {
+    bottom: 0;
+    left: 40%;
+  }
+  
+  .button {
+    border: 1px solid #000;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    /* left: calc((510px / 2) - 20px - (10px)); */
+    /* width of card / 2 - radius of circle - border */
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .button:before,
+  .button:after {
+      content: '';
+      position: absolute;
+      top: 20%;
+      left: 20%;
+      right: 20%;
+      bottom: 20%;
+      background:black;
+      transition: transform .4s ease-in-out;
+  }
+  
+  .button:before{
+      width: 2px;
+      margin: 2px auto;
+  }
+  .button:after{
+      margin: auto 2px;
+      height: 2px;
+  }
+  
+  .buttonClicked {
+    border-color: #FF4133;
+  }
+  
+  .buttonClicked:before,
+  .buttonClicked:after {
+    background: #FF4133;
+    transform: rotate(45deg);
+  }
+  
+  /* .button {
+    position: absolute;
+    width: 107px;
+    height: 107px;
+    border: 1px solid #FF4133;
+    color: #FF4133;
+    font-size: 80px;
+  } */
+  
+  /* .button::before {
+    content: '+';
+  }
+  
+  /* Top Left */
+  /* .card:nth-of-type(8n + 1) .button {
+    bottom: 0;
+    right: 0;
+    border-radius: 107px 0 0 0;
+    -moz-border-radius: 107px 0 0 0;
+    -webkit-border-radius: 107px 0 0 0;
+    line-height: 125px;
+    padding-left: 36px;
+  } */
+  
+  /* Bottom Right */
+  /* .card:nth-of-type(8n + 2) .button {
+    border-radius: 0 0 107px 0;
+    -moz-border-radius: 0 0 107px 0;
+    -webkit-border-radius: 0 0 107px 0;
+    line-height: 90px;
+    padding-left: 15px;
+  } */
+  
+  /* Top Right */
+  /* .card:nth-of-type(8n + 4) .button {
+    left: 0;
+    bottom: 0;
+    border-radius: 0 107px 0 0;
+    -moz-border-radius: 0 107px 0 0;
+    -webkit-border-radius: 0 107px 0 0;
+    line-height: 125px;
+    padding-left: 18px;
+  } */
+  
+  /* Bottom Left */
+  /* .card:nth-of-type(8n + 5) .button {
+    top: 0;
+    right: 0;
+    border-radius: 0 0 0 107px;
+    -moz-border-radius: 0 0 0 107px;
+    -webkit-border-radius: 0 0 0 107px;
+    line-height: 90px;
+    padding-left: 40px;
+  } */
+  
+  .og-card-parent, .new-card-parent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .new-card-parent {
+    opacity: 0%;
+    border: 10px solid transparent;
+    transition: border 0.4s linear;
+  }
+  
+  .sin-card-red-border {
+    border: 10px solid #FF4133;
+  }
+  
+  .sin-word {
+    opacity: 0%;
+  }
+  
+  .outline-sin-word {
+    color: #F4F1F2 !important;
+    -webkit-text-stroke: 2px #FF4133;
+    opacity: 33%;
+    transition: color 0.4s ease-out;
+  }
+  
+  .fill-in {
+    color: #FF4133 !important;
+    -webkit-text-stroke: none;
+  }
+  
+  
+  .sin-word-scene {
+    transform: translateZ(calc(var(--cameraZ) * 0.3 * 1px));
+  }
+  
+  .sin-word-scene > div {
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  
+  .final-scene-card {
+    /* visibility: hidden; */
+    /* transition: visibility 0.5s linear; */
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 30%;
+    bottom: 0;
+  }
+  
+  .very-last-card {
+    /* visibility: hidden; */
+    /* transition: visibility 0.5s linear; */
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 30%;
+    bottom: 0;
+  }
+  
+  .ending-stack-container {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    perspective: calc(var(--scenePerspective) * var(--cameraSpeed) * 1px);
+    perspective-origin: calc(var(--scenePerspectiveOriginX) * 1%)
+      calc(var(--scenePerspectiveOriginY) * 1%);
+    /* will-change: perspective-origin; */
+    transform: translate3d(0, 0, 0); /* Allow Hardware-Accelerated CSS */
+    z-index: -1;
+  }
+  
+  .ending-stacked-card {
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: translateZ(-700px);
+    opacity: 0%;
+    box-shadow: 0px 20px 20px -10px rgba(0, 0, 0, 0.66);
+  }
+  
+  .ending-sentence {
+    opacity: 100%;
+    /* Center all the text */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .open-comments-btn-container {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+    transition-delay: 1s;
+  }
+  
+  .show {
+    opacity: 100%;
+    visibility: visible;
+  }
+  
+  /* Position all the text */
+  /* .final-scene-words {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
+  
+  .sin-room-comments-wrapper {
+    /* display: none;
+    height: 200vh; */
+    display: block;
+    height: 100vh;
+    position: relative;
+  }
+  
+  .sin-room-comments {
+    padding: 0;
+    max-width: 100%;
+    color: #04091C;
+    font-size: 21px;
+    line-height: 120%;
+  }
+  
+  .sin-room-comment-item {
+    padding: 20px;
+    box-sizing: border-box;
+    display: inline;
+    width: 33.33%;
+  }
+
+  .sin-room-comment-item .item {
+    background-color: #F4F1F2;
+    padding: 24px;
+  }
+
+  .sin-room-comment-item .name {
+    font-family: 'Patrick Hand', cursive;
+    font-weight: 700;
+  }
+
+  .sin-room-comment-item .comment {
+    font-family: 'Shadows Into Light', cursive;
+    padding-top: 0px;
+  }
+  
+  .sin-room-comment-submission-container {
+    position: fixed;
+    bottom: 0;
+    right: 120px;
+    width: 408px;
+    height: 434px;
+    z-index: 1;
+    /* Layer it above the footer */
+    font-family: 'Open Sans';
+    font-weight: 400;
+    padding: 24px;
+  }
+  
+  .sin-room-comment-submission-container textarea {
+    width: 100%;
+    /* subtract padding */
+    min-height: 315px;
+    resize: none;
+    margin-bottom: 18px;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .sin-room-comment-submission-container .input {
+    display: inline-block;
+    width: 232px;
+    height: 53px;
+    padding: 10px;
+  }
+  
+  .sin-room-comment-submission-container .submit {
+    float: right;
+    width: 114px;
+    height: 53px;
+    font-size: 21px;
+    font-weight: 700;
+    border: 2px solid #A89D9C;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color:#04091C;
+    background-color: transparent;
+  }
+  
+  
+  .comments-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  

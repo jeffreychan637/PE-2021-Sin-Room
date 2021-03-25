@@ -11,7 +11,8 @@ let perspectiveOrigin = { x: 50, y: 50, maxGap: 30 };
 
 let numberOfLayers = 1;
 // based on layers from card spreadsheet
-let numberOfElementsPerLayer =  [1, 1, 2, 2, 3, 3, 4, 5, 6, 6, 6, 7, 7, 7, 7, 8]; //[1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 2, 2, 3, 3, 0, 4, 4, 4, 5, 5, 5, 6, 6];
+let numberOfElementsPerLayer =  [1, 2, 1, 2, 2, 3, 4, 4, 4, 4, 5, 5, 5, 7, 4];
+//[1, 1, 2, 2, 3, 3, 4, 5, 6, 6, 6, 7, 7, 7, 7, 8]; //[1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 2, 2, 3, 3, 0, 4, 4, 4, 5, 5, 5, 6, 6];
 let revealDistance = 1500; // the distance when we begin to reveal a card
 let changeDistance = 300; // the distance we begin to change a card from the sin word to the sentence
 let finalSceneElementsFadeDistance = -100; // the distance that the final scene card fades out (visibility -> hidden)
@@ -311,10 +312,10 @@ Webflow.push(function () {
       const numberOfElementsInLayer = (numberOfElementsPerLayer[elementsInLayerArrayIndex] || 8);
       const randomX = 0;
       const randomY = 0;
-      const zValue = itemZ * cameraSpeed * //itemZ * cameraSpeed * 
+      const zValue = itemZ * cameraSpeed / 1.5 * //itemZ * cameraSpeed * 
         (currentLayerNumber) 
         + initialDistanceBuffer + 
-        (125 * (numberOfElementsInLayer - numElementsLeftInLayer));
+        (115 * (numberOfElementsInLayer - numElementsLeftInLayer));
         // the more elements in layer the more we should spread them out
 
         //for the distance between layer multiplier, we're doing mx + b where if 1 element in layer, y = 2 and if 8 elements in layer, y = 0.5
@@ -487,7 +488,7 @@ function onBeginNarrationUpdates() {
 
   if (time > 26 && time < 28) {
     spotlight.css('background-image', `radial-gradient(circle at 
-      ${50}% ${72}%, 
+      ${50}% ${68}%, 
       transparent 80px, rgba(17, 17, 17, 1) 100px)`);
     if (!mouseOverEventListenerActive) {
       window.addEventListener('mousemove', onMouseOverForSpotlight);
@@ -1003,9 +1004,9 @@ function setupCommentsSection(comments) {
     $('<div />', {
       "class": 'sin-room-comment-item',
       html: comment.name
-              ? `<div class="item comment">${comment.text}</div>
-                 <div class="item name">${comment.name}</div>`
-              : `<div class="item comment">${comment.text}</div>`,
+              ? `<div class="sin-room-comment-piece sin-room-comment-comment">${comment.text}</div>
+                 <div class="sin-room-comment-piece sin-room-comment-name">${comment.name}</div>`
+              : `<div class="sin-room-comment-piece sin-room-comment-comment">${comment.text}</div>`,
     }).appendTo(commentsContainer);
   }
   
@@ -1029,9 +1030,9 @@ function setupCommentsSection(comments) {
       const newComment = $('<div />', {
         "class": 'sin-room-comment-item',
         html: name
-                ? `<div class="item comment">${text}</div>
-                   <div class="item name">${name}</div>`
-                : `<div class="item comment">${text}</div>`,
+                ? `<div class="sin-room-comment-piece sin-room-comment-comment">${text}</div>
+                   <div class="sin-room-comment-piece sin-room-comment-name">${name}</div>`
+                : `<div class="sin-room-comment-piece sin-room-comment-comment">${text}</div>`,
       })[0];
       
       fragment.appendChild(newComment);

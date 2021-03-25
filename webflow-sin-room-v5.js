@@ -1003,9 +1003,9 @@ function setupCommentsSection(comments) {
     $('<div />', {
       "class": 'sin-room-comment-item',
       html: comment.name
-              ? `<div class="item comment">${comment.text}</div>
-                 <div class="item name">${comment.name}</div>`
-              : `<div class="item comment">${comment.text}</div>`,
+              ? `<div class="sin-room-comment-piece sin-room-comment-comment">${comment.text}</div>
+                 <div class="sin-room-comment-piece sin-room-comment-name">${comment.name}</div>`
+              : `<div class="sin-room-comment-piece sin-room-comment-comment">${comment.text}</div>`,
     }).appendTo(commentsContainer);
   }
   
@@ -1029,9 +1029,9 @@ function setupCommentsSection(comments) {
       const newComment = $('<div />', {
         "class": 'sin-room-comment-item',
         html: name
-                ? `<div class="item comment">${text}</div>
-                   <div class="item name">${name}</div>`
-                : `<div class="item comment">${text}</div>`,
+                ? `<div class="sin-room-comment-piece sin-room-comment-comment">${text}</div>
+                   <div class="sin-room-comment-piece sin-room-comment-name">${name}</div>`
+                : `<div class="sin-room-comment-piece sin-room-comment-comment">${text}</div>`,
       })[0];
       
       fragment.appendChild(newComment);

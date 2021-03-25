@@ -17,11 +17,17 @@
   --cardChangeEndD: 250; */
 }
 
-.w-embed {
+/* .w-embed {
   z-index: 2;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
+} */
+
+.navbar {
+  /* Hack around webflow - only on my page */
+  position: relative;
+  background-color: #111;
 }
 
 #opening-audio {
@@ -151,6 +157,7 @@
   z-index: 2;
   opacity: 0%;
   transition: opacity 0.5s linear 0s;
+  text-align: center;
 }
 
 .mouse-to-explore {
@@ -158,16 +165,21 @@
 }
 
 .scroll-to-move {
-    bottom: 43%;
+    bottom: 41%;
 }
 
 .click-select-card {
   bottom: 50%;
 }
 
+.sin-room-scroll-mouse-icon, .sin-room-move-mouse-icon {
+  height: 20px;
+  margin-bottom: 10px;
+}
+
 .sin-room-image {
   position: absolute;
-  top: -5%;
+  top: -2%;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -566,7 +578,7 @@
   /* height: 200vh; */
   /* display: block; */
   opacity: 0;
-  height: 100vh;
+  /* height: 100vh; */
   position: relative;
   transition: opacity 1s ease-in;
   z-index: 0;
@@ -583,6 +595,10 @@
   padding-bottom: 100px;
 }
 
+.sin-room-comments-title {
+  margin-top: 40px;
+}
+
 .sin-room-comment-item {
   padding: 20px;
   box-sizing: border-box;
@@ -590,13 +606,13 @@
   width: 33.33%;
 }
 
-/* .sin-room-comment-item .item {
+/* .sin-room-comment-item .sin-room-comment-piece {
   background-color: #F4F1F2;
   padding: 24px;
 }
  */
 
- .sin-room-comment-item .name {
+ .sin-room-comment-item .sin-room-comment-name {
   /* font-family: 'Patrick Hand', cursive;
   font-weight: 700;
   padding-bottom: 0; */
@@ -604,7 +620,7 @@
   opacity: 50%;
 }
 
-.sin-room-comment-item .comment {
+.sin-room-comment-item .sin-room-comment-comment {
   /* font-family: 'Shadows Into Light', cursive; */
   /* padding-top: 24px; */
 }

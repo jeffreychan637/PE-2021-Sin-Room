@@ -16,20 +16,20 @@
     --cardChangeBeginD: 350;
     --cardChangeEndD: 250; */
   }
-
+  
   /* .w-embed {
     z-index: 2;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
   } */
-
+  
   .navbar {
     /* Hack around webflow - only on my page */
     position: relative;
-    background-color: green;
+    background-color: #111;
   }
-
+  
   #opening-audio {
     position: fixed;
     top: 0;
@@ -41,17 +41,17 @@
   .viewport {
     transition: opacity 1s ease;
   }
-
+  
   .opening-scene {
     /* visibility: hidden; */
     height: calc(var(--openingSceneHeight) * 1px);
   }
-
+  
   .centered-card {
     top: 50% !important;
     left: 50% !important;
   }
-
+  
   .enter-sin-room-link {
     position: fixed;
     top: 30%;
@@ -60,20 +60,53 @@
     opacity: 0;
     transition: opacity 0.2s linear;
   }
-
-
+  
+  
   @media screen and (min-height: 1200px) {
     .enter-sin-room-link {
         top: 40%;
     }
   }
-
+  
   @media screen and (max-height: 775px) {
     .enter-sin-room-link {
         top: 20%;
     }
   }
-
+  
+  @media screen and (max-height: 850px) {
+    #mark-passage-4 {
+      font-size: 65px;
+      line-height: 70px;
+    }
+    .mark-7-text.w-richtext h1 {
+      font-size: 65px;
+      line-height: 70px;
+    }
+  }
+  
+  @media screen and (max-height: 800px) {
+    #mark-passage-4 {
+      font-size: 50px;
+      line-height: 55px;
+    }
+    .mark-7-text.w-richtext h1 {
+      font-size: 50px;
+      line-height: 55px;
+    }
+  }
+  
+  @media screen and (max-height: 750px) {
+    #mark-passage-4 {
+      font-size: 40px;
+      line-height: 45px;
+    }
+    .mark-7-text.w-richtext h1 {
+      font-size: 40px;
+      line-height: 45px;
+    }
+  }
+  
   .main-scene {
     display: none;
     opacity: 0;
@@ -81,27 +114,27 @@
     /* TODO: Probably should update this variable name */
     height: calc(var(--viewportHeight) * 1px);
   }
-
+  
   /* .autoscroll-controls {
     display: none;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
   } */
-
+  
   .sin-room-image {
     /* mix-blend-mode: darken; */
   }
-
+  
   .sin-wall {
       z-index: -1;
       /* mix-blend-mode: darken; */
   }
-
+  
   .sin-wall-blanks {
     z-index: -1;
     /* mix-blend-mode: darken; */
-}
+  }
   
   .scene3d-container {
     position: fixed;
@@ -149,7 +182,7 @@
     /* opacity: 0%; */  
     /* updated Sat morning will cause all things to show up by default */
   }
-
+  
   .user-instruction-text {
     position: fixed;
     left: 50%;
@@ -157,20 +190,26 @@
     z-index: 2;
     opacity: 0%;
     transition: opacity 0.5s linear 0s;
+    text-align: center;
   }
-
+  
   .mouse-to-explore {
     bottom: 20%;
   }
-
+  
   .scroll-to-move {
-      bottom: 43%;
+      bottom: 41%;
   }
-
+  
   .click-select-card {
     bottom: 50%;
   }
-
+  
+  .sin-room-scroll-mouse-icon, .sin-room-move-mouse-icon {
+    height: 20px;
+    margin-bottom: 10px;
+  }
+  
   .sin-room-image {
     position: absolute;
     top: -2%;
@@ -180,7 +219,7 @@
     height: 100%;
     opacity: 100%;
   }
-
+  
   .sin-room-spotlight {
     /* transition: background-image 5s ease-in-out; */
     background-image: radial-gradient(
@@ -191,17 +230,17 @@
     /* Make everything zero because we don't want to actually show the circle yet */
     /* transition: opacity 1s linear 0s; */
   }
-
+  
   .sin-wall {
     transition: opacity 5s linear 0s;
     opacity: 0;
   }
-
+  
   .sin-wall-blanks {
     transition: opacity 5s linear 0s;
     opacity: 0;
   }
-
+  
   .opening-mark-7-begin, .opening-mark-7-end {
     /* visibility: hidden; */
     /* transition: visibility 0.5s linear; */
@@ -209,25 +248,25 @@
     left: 0;
     right: 0;
   }
-
+  
   .opening-mark-7-begin {
     top: 29%;
     /* top: 40%; */
     /* bottom: 0; */
     transition: top 0.7s linear 0s;
   }
-
+  
   .opening-mark-7-begin > div {
     opacity: 0%;
     transition: opacity 0.4s linear;
   }
-
+  
   .opening-mark-7-end {
     opacity: 0%;
     bottom: 25%;
     transition: opacity 2s linear;
   }
-
+  
   /* .psalm-53 {
     opacity: 0%;
     transition: opacity 1s linear 0s;
@@ -243,7 +282,7 @@
     opacity: 0%;
     background-color: rgba(17,17,17,1.0);
   }
-
+  
   .sin-room-card:hover {
     cursor: pointer;
   }
@@ -295,7 +334,7 @@
     top: 20%;
     right: 0;
   }
-
+  
   .sin-room-card-button {
     opacity: 0;
     transition: opacity 0.2s linear;
@@ -417,7 +456,7 @@
     transition: border 0.4s linear;
     mix-blend-mode: darken;
   }
-
+  
   .og-card-parent {
     z-index: 1; 
     /* filter: brightness(70%); */
@@ -429,7 +468,7 @@
     box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.33);
     /* filter: brightness(20%); */
   }
-
+  
   .sin-card-yellow-border {
     border: 10px solid #FFB10C;
   }
@@ -456,7 +495,7 @@
     color: #FF4133 !important;
     -webkit-text-stroke: 0px;
   } */
-
+  
   .sin-sentence {
       padding: 0px 30px;
   }
@@ -524,7 +563,7 @@
     opacity: 100%;
     padding: 0px 30px;
   }
-
+  
   .ending-sin-cards-image {
     position: fixed;
     width: 200%;
@@ -536,7 +575,7 @@
     opacity: 0;
     transition: opacity 0.5s ease-in 1s;
   }
-
+  
   .show-50 {
     /* visibility: visible; */
     opacity: 50%;
@@ -588,7 +627,7 @@
     transition: opacity 1s ease-out;
     padding-bottom: 100px;
   }
-
+  
   .sin-room-comments-title {
     margin-top: 40px;
   }
@@ -618,7 +657,7 @@
     /* font-family: 'Shadows Into Light', cursive; */
     /* padding-top: 24px; */
   }
-
+  
   .sin-room-comment-submission {
     position: fixed;
     bottom: 0;
@@ -629,7 +668,7 @@
     font-weight: 400;
     color: #A89D9C;
   }
-
+  
   .sin-room-comment-submission-message {
     display: none;
     bottom: 28px;
@@ -657,7 +696,7 @@
     height: 53px;
     padding: 10px;
   }
-
+  
   .sin-room-comment-submission-container .submit {
     float: right;
     width: 114px;
@@ -672,15 +711,15 @@
     color: #A89D9C;
     background-color: transparent;
   }
-
+  
   .sin-room-comment-submission-container .submit:hover {
     cursor: default;
   }
-
+  
   .sin-room-comment-submission-container .submit-allowed {
     color:#04091C;
   }
-
+  
   .sin-room-comment-submission-container .submit-allowed:hover {
     cursor: pointer;
   }

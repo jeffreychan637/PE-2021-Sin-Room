@@ -1,4 +1,5 @@
-const prodFlag = false;
+let prodFlag = false;
+console.log('debug mode');
 
 /* 
 Actual Values stored in CSS. Defaults are here just in case.

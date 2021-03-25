@@ -1,8 +1,10 @@
-if (isDebugMode()) {
-  addDebugScript();
-} else {
-  main();
-}
+// if (isDebugMode()) {
+//   addDebugScript();
+// } else {
+//   main();
+// }
+
+main();
 
 function isDebugMode() {
   const urlParams = new URLSearchParams(window.location.search);

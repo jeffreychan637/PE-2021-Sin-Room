@@ -1,17 +1,18 @@
 :root {
-  --scenePerspective: 1;
-  --scenePerspectiveOriginX: 50;
-  --scenePerspectiveOriginY: 50;
-  --itemZ: 2;
-  --cameraSpeed: 600;
-  --cameraZ: 0;
-  --viewportHeight: 0;
-  --openingSceneHeight: 0;
-}
-
+    --scenePerspective: 1;
+    --scenePerspectiveOriginX: 50;
+    --scenePerspectiveOriginY: 50;
+    --itemZ: 2;
+    --cameraSpeed: 600;
+    --cameraZ: 0;
+    --viewportHeight: 0;
+    --openingSceneHeight: 0;
+  }
+  
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 
 .navbar {
   /* Hack around webflow - only on my page */
@@ -457,7 +458,7 @@
   width: 33.33%;
 }
 
- .sin-room-comment-item .sin-room-comment-name {
+  .sin-room-comment-item .sin-room-comment-name {
   /* font-family: 'Patrick Hand', cursive;
   font-weight: 700;
   padding-bottom: 0; */
@@ -536,3 +537,4 @@
   bottom: 0;
   width: 100%;
 }
+

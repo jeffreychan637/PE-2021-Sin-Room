@@ -557,7 +557,7 @@ function main() {
         commentsContainer[0].insertBefore( fragment, commentsContainer[0].firstChild );
         mansonry.prepended(newComment);
 
-        const newCommentRef = firebase.database().ref('en/sin').push();
+        const newCommentRef = firebase.database().ref(`${language}/sin`).push();
         newCommentRef.set({
             name,
             text,

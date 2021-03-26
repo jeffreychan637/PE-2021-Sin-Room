@@ -329,7 +329,6 @@
 
 .og-card-parent {
   z-index: 1;
-  background-clip: content-box;
   /* filter: brightness(70%); */
   /* hack - you should reorder the html */
 }
@@ -338,6 +337,10 @@
   opacity: 100%;
   box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.33);
   /* filter: brightness(20%); */
+}
+
+.adultery, .rust, .flame, .ink, .broken-concrete, .broken-glass {
+  background-clip: content-box;
 }
 
 .sin-card-yellow-border {

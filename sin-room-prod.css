@@ -313,11 +313,11 @@
   border: 10px solid transparent;
   transition: border 0.4s linear;
   mix-blend-mode: darken;
-  background-clip: content-box;
 }
 
 .og-card-parent {
   z-index: 1;
+  background-clip: content-box;
   /* filter: brightness(70%); */
   /* hack - you should reorder the html */
 }
@@ -482,7 +482,7 @@
   width: 33.33%;
 }
 
-  .sin-room-comment-item .sin-room-comment-name {
+.sin-room-comment-item .sin-room-comment-name {
   /* font-family: 'Patrick Hand', cursive;
   font-weight: 700;
   padding-bottom: 0; */

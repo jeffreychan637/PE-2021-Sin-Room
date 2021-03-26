@@ -325,11 +325,11 @@
   border: 10px solid transparent;
   transition: border 0.4s linear;
   mix-blend-mode: darken;
-  background-clip: content-box;
 }
 
 .og-card-parent {
   z-index: 1;
+  background-clip: content-box;
   /* filter: brightness(70%); */
   /* hack - you should reorder the html */
 }

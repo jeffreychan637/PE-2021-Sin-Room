@@ -3,7 +3,6 @@ if (isDebugMode()) {
 } else {
   main();
 }
-// test comment
 
 function isDebugMode() {
   const urlParams = new URLSearchParams(window.location.search);

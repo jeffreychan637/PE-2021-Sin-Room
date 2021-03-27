@@ -23,26 +23,27 @@ function addDebugScript() {
 function sanitize(input) {
   return input.replaceAll("<", "&lt;").replaceAll('>', "&gt;");
 }
-  
+
 function main() {
 
-  let possibleLanguages = ['en', 'jp'];
-  function detectLanguage() {
-    const regex = /\/([a-z]{2}$)/;
-    const match = window.location.pathname.match(regex);
-    if (match && possibleLanguages.includes(match[1])) {
-      return match[1];
-    } else {
-      return 'en';
-    }
-  }
-
-  let language = detectLanguage();
-
   let prodFlag = true;
+
+  const DEFAULT_LANG = 'en';
+  function detectLanguage(pathname) {
+    if (!pathname) {
+      return DEFAULT_LANG;
+    }
+    const lastIndex = pathname.lastIndexOf('/');
+    if (lastIndex === -1) {
+      return DEFAULT_LANG;
+    }
+    return pathname.substring(lastIndex + 1);
+  }
+  const language = detectLanguage(window.location.pathname)
+
   $('#player').attr('src', `https://passion-experience.s3.amazonaws.com/assets/2021/pe-page5/${language}/PE21_page5-SinInOurHearts.mp3`);
 
-  /* 
+  /*
   Actual Values stored in CSS. Defaults are here just in case.
   Can probably remove because the code that needs these value only runs after these values are set.
   */
@@ -195,14 +196,14 @@ function main() {
         const numberOfElementsInLayer = (numberOfElementsPerLayer[elementsInLayerArrayIndex] || 8);
         const randomX = 0;
         const randomY = 0;
-        const zValue = itemZ * cameraSpeed / 1.5 * //itemZ * cameraSpeed * 
-          (currentLayerNumber) 
-          + initialDistanceBuffer + 
+        const zValue = itemZ * cameraSpeed / 1.5 * //itemZ * cameraSpeed *
+          (currentLayerNumber)
+          + initialDistanceBuffer +
           (115 * (numberOfElementsInLayer - numElementsLeftInLayer));
           // the more elements in layer the more we should spread them out
 
           //for the distance between layer multiplier, we're doing mx + b where if 1 element in layer, y = 2 and if 8 elements in layer, y = 0.5
-        
+
           // give the same value to the next 4 elements
         // add a little bit of variation at the end.
         cardElementsZValues.push(zValue);
@@ -224,7 +225,7 @@ function main() {
 
     veryLastWordsZValue = cardElementsZValues[cardElementsZValues.length - 1] + 1000;
     veryLastCard.css('transform', `translate3d(${0}%, ${0}%, -${veryLastWordsZValue}px`);
-    
+
     // Setup button on-click functions
     cardElements.hover(onSinCardHover, onSinCardEndHover);
     cardElements.click(onSinCardClick);
@@ -236,12 +237,29 @@ function main() {
     setupBGMAudioComponent();
 
     enterMainRoom();
+
+    $('.page2-comment-close').click(() => {
+      collapseComments();
+    });
+
+    $('.comment-opener-link').click(() => {
+      openComments();
+    });
   });
+
+  function collapseComments() {
+    $('.sin-room-comment-submission-container').css('transform', 'translateY(434px)');
+  }
+
+  function openComments() {
+    $('.sin-room-comment-submission-container').css('transform', 'translateY(0px)');
+  }
 
   function setupBGMAudioComponent() {
     bgmAudio = document.createElement('audio');
     bgmAudio.setAttribute('loop', '');
     bgmAudio.setAttribute('src', 'https://passion-experience.s3.amazonaws.com/assets/2021/pe-page5/PE21_page5_SinInOurHearts_BGM_Loop_AsYouWere.mp3');
+    bgmAudio.setAttribute('preload', 'auto');
     bgmAudio.setAttribute('style', 'display: none;');
     $('.sin-room-body').append(bgmAudio);
   }
@@ -252,7 +270,7 @@ function main() {
     $('.main-scene').css('display', 'block');
     $('.main-scene').css('opacity', '100%');
 
-    
+
     togglePlay(); // defined in audio symbol
     const originalOnTimeUpdateFunction = $('#player')[0].ontimeupdate;
     $('#player')[0].ontimeupdate = function() {
@@ -284,9 +302,9 @@ function main() {
     }
 
     if (time > 26 && time < 28) {
-      spotlight.css('background-image', `radial-gradient(circle at 
-        ${50}% ${68}%, 
-        transparent 80px, rgba(17, 17, 17, 1) 100px)`);
+      spotlight.css('background-image', `radial-gradient(circle at
+        ${50}% ${68}%,
+        rgba(17, 17, 17, 0) 80px, rgba(17, 17, 17, 1) 130px)`);
       if (!mouseOverEventListenerActive) {
         window.addEventListener('mousemove', onMouseOverForSpotlight);
         mouseOverEventListenerActive = true;
@@ -317,7 +335,7 @@ function main() {
     if (time > 44 && time < 45.5) {
       $('.scroll-to-move').css('opacity', '100%');
       if (prodFlag) {
-        enableScroll(); 
+        enableScroll();
       }
     }
 
@@ -330,9 +348,9 @@ function main() {
   function onMouseOverForSpotlight(event) {
     let xValue =  (((event.pageX / window.innerWidth) * 0.60) + 0.2) * 100;
     let yValue = (((event.pageY / window.innerHeight) * 0.60) + 0.2) * 100;
-    spotlight.css('background-image', `radial-gradient(circle at 
-        ${xValue}% ${yValue}%, 
-        transparent 80px, rgba(17, 17, 17, 1) 130px)`);
+    spotlight.css('background-image', `radial-gradient(circle at
+        ${xValue}% ${yValue}%,
+        rgba(17, 17, 17, 0) 80px, rgba(17, 17, 17, 1) 130px)`);
   }
 
   const cardBeginRevealD = 2500;
@@ -354,12 +372,12 @@ function main() {
     }
 
     if (window.pageYOffset > 500 && window.pageYOffset < 1000) {
-      if (mouseOverEventListenerActive) {    
+      if (mouseOverEventListenerActive) {
         window.removeEventListener('mousemove', onMouseOverForSpotlight);
         mouseOverEventListenerActive = false;
       }
     }
-      
+
     if (window.pageYOffset > 700 && window.pageYOffset < 1000) {
       clickSelectCardText.css('visibility', 'visible');
       clickSelectCardText.css('opacity', '100%');
@@ -484,7 +502,7 @@ function main() {
         break;
       }
     }
-    
+
     if (numberOfCardsLeft) {
       // max number of cards per layer is 4 so divide remaining cards by 4 to get remaining layers count
       curNumLayers += Math.ceil(numberOfCardsLeft / 4);
@@ -498,9 +516,9 @@ function main() {
     const commentsWrapper = $('.sin-room-comments-wrapper');
 
     clickSelectCardText.css('display', 'none');
-    
+
     viewport.css('opacity', 0);
-    
+
     window.setTimeout(function() {
       viewport.css('display', 'none');
       window.scrollTo(0, 0);
@@ -525,12 +543,12 @@ function main() {
                 : `<div class="sin-room-comment-piece sin-room-comment-comment">${sanitize(comment.text)}</div>`,
       }).appendTo(commentsContainer);
     }
-    
+
     mansonry = new Masonry('.sin-room-comments', {
       itemSelector: ".sin-room-comment-item"
     });
 
-    $('#sin-room-comment-text').on('input', function() { 
+    $('#sin-room-comment-text').on('input', function() {
       if ($('#sin-room-comment-text').val().trim()) {
         $('#sin-room-comment-submit').addClass('submit-allowed');
       } else {
@@ -550,7 +568,7 @@ function main() {
                     <div class="sin-room-comment-piece sin-room-comment-name">${sanitize(name)}</div>`
                   : `<div class="sin-room-comment-piece sin-room-comment-comment">${sanitize(text)}</div>`,
         })[0];
-        
+
         fragment.appendChild(newComment);
         commentsContainer[0].insertBefore( fragment, commentsContainer[0].firstChild );
         mansonry.prepended(newComment);
@@ -563,6 +581,7 @@ function main() {
 
         window.scrollTo(0, 0);
 
+        $('.comment-opener').css('display', 'none');
         $('.sin-room-comment-submission-container').css('display', 'none');
         $('.sin-room-comment-submission-message').css('display', 'block');
       }
@@ -615,7 +634,7 @@ function main() {
   }
 
   function enableScroll() {
-    window.removeEventListener('wheel', preventDefault, { passive: false }); 
+    window.removeEventListener('wheel', preventDefault, { passive: false });
     window.removeEventListener('touchmove', preventDefault, { passive: false });
     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
     $('body').removeClass('hide-scrollbar');

@@ -8,7 +8,7 @@
     --viewportHeight: 0;
     --openingSceneHeight: 0;
   }
-  
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -32,6 +32,41 @@
   transition: opacity 1s ease;
 }
 
+.mark-7-text.w-richtext h1, .final-scene-words-2 h1 {
+  font-family: 'Playfair Display', sans-serif;
+  color: #ff4133;
+  font-size: 70px;
+  line-height: 82px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: auto;
+  margin-bottom: auto;
+  letter-spacing: 0em;
+}
+
+.mark-7-text.w-richtext h2, .final-scene-words-2 h2{
+  font-family: 'Open Sans Condensed', sans-serif;
+  color: #fff;
+  font-size: 22px;
+  line-height: 27px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  letter-spacing: 0em;
+}
+
+.final-scene-words-2 h1 {
+  font-size: 130px;
+  line-height: 150px;
+}
+
+.final-scene-words-2 h2 {
+  font-size: 48px;
+  line-height: 55px;
+}
+
 @media screen and (max-height: 850px) {
   #mark-passage-4 {
     font-size: 65px;
@@ -51,6 +86,10 @@
   .mark-7-text.w-richtext h1 {
     font-size: 50px;
     line-height: 55px;
+  }
+  .final-scene-words-2 h1 {
+    font-size: 95px;
+    line-height: 105px;
   }
 }
 
@@ -147,7 +186,7 @@
 .sin-room-spotlight {
   background-image: radial-gradient(
       circle,
-      transparent 0px,
+      rgba(17, 17, 17, 0) 0px,
       rgba(17, 17, 17, 1) 0px
   );
   /* Make everything zero because we don't want to actually show the circle yet */
@@ -305,7 +344,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(512px - 20px); 
+  width: calc(512px - 20px);
   height: calc(352px - 20px);
   box-sizing: content-box;
   /* Card height and width are 160px bigger with 80px padding (set in Webflow) */
@@ -461,7 +500,7 @@
   position: relative;
   transition: opacity 1s ease-in;
   z-index: 0;
-  
+
 }
 
 .sin-room-comments {
@@ -513,6 +552,8 @@
   width: 408px;
   height: 434px;
   padding: 24px;
+
+  transition: transform 1s;
 }
 
 .sin-room-comment-submission-container textarea {

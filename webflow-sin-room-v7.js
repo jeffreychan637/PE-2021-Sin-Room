@@ -43,8 +43,6 @@ function main() {
   }
   const language = detectLanguage(window.location.pathname)
 
-  $('#player').attr('src', `https://passion-experience.s3.amazonaws.com/assets/2021/pe-page5/${language}/PE21_page5-SinInOurHearts.mp3`);
-
   /*
   Actual Values stored in CSS. Defaults are here just in case.
   Can probably remove because the code that needs these value only runs after these values are set.
@@ -87,7 +85,6 @@ function main() {
   let mouseOverEventListenerActive = false;
   let clickSelectCardText;
   let gotToEndOfTunnelBefore = false;
-  let bgmAudio;
   let startedBGM = false;
 
   function getThisCardElements(card) {
@@ -236,8 +233,6 @@ function main() {
 
     waitForFirebase();
 
-    setupBGMAudioComponent();
-
     enterMainRoom();
 
     $('.page2-comment-close').click(() => {
@@ -255,15 +250,6 @@ function main() {
 
   function openComments() {
     $('.sin-room-comment-submission-container').css('transform', 'translateY(0px)');
-  }
-
-  function setupBGMAudioComponent() {
-    bgmAudio = document.createElement('audio');
-    bgmAudio.setAttribute('loop', '');
-    bgmAudio.setAttribute('src', 'https://passion-experience.s3.amazonaws.com/assets/2021/pe-page5/PE21_page5_SinInOurHearts_BGM_Loop_AsYouWere.mp3');
-    bgmAudio.setAttribute('preload', 'auto');
-    bgmAudio.setAttribute('style', 'display: none;');
-    $('.sin-room-body').append(bgmAudio);
   }
 
   function enterMainRoom() {
@@ -341,9 +327,9 @@ function main() {
       }
     }
 
-    if (!startedBGM && time > 75) {
+    if (!startedBGM && (openingNarrationAudio.duration - time < 5)) {
       startedBGM = true;
-      bgmAudio.play();
+      $('#bgm-audio')[0].play();
     }
   }
 

@@ -293,6 +293,7 @@ function main() {
         rgba(17, 17, 17, 0) 80px, rgba(17, 17, 17, 1) 130px)`);
       if (!mouseOverEventListenerActive) {
         window.addEventListener('mousemove', onMouseOverForSpotlight);
+        window.addEventListener('touchmove', onMouseOverForSpotlight);
         mouseOverEventListenerActive = true;
       }
       $('.sin-wall').css('opacity', '100%');
@@ -360,6 +361,7 @@ function main() {
     if (window.pageYOffset > 500 && window.pageYOffset < 1000) {
       if (mouseOverEventListenerActive) {
         window.removeEventListener('mousemove', onMouseOverForSpotlight);
+        window.removeEventListener('touchmove', onMouseOverForSpotlight);
         mouseOverEventListenerActive = false;
       }
     }

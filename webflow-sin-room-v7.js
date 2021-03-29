@@ -164,6 +164,8 @@ function main() {
     window.addEventListener("scroll", moveCamera, {passive: true});
     getCSSComputedStyles();
 
+    adjustForLanguages();
+
     cardElements = $('.sin-room-card');
 
     sinSentences = $('.sin-sentence');
@@ -250,6 +252,35 @@ function main() {
 
   function openComments() {
     $('.sin-room-comment-submission-container').css('transform', 'translateY(0px)');
+  }
+
+  function adjustForLanguages() {
+    if (language === 'vn') {
+      const windowHeight = window.innerHeight;
+      let lineHeight = 190;
+      let fontSize;
+      if (windowHeight < 845) {
+        lineHeight = 155;
+        fontSize = 110;
+      }
+      if (windowHeight < 805) {
+        lineHeight = 100;
+        fontSize = 70;
+      }
+      if (windowHeight < 775) {
+        lineHeight = null;
+        fontSize = 70;
+        $('.open-comments-btn-container').css('bottom', '2%');
+        // just move the button down instead
+      }
+
+      if (lineHeight) {
+        $('.final-scene-words-2 h1').css('line-height', `${lineHeight}px`);
+      }
+      if (fontSize) {
+        $('.final-scene-words-2 h1').css('font-size', `${fontSize}px`);
+      }
+    }
   }
 
   function enterMainRoom() {

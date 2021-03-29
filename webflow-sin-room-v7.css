@@ -134,7 +134,7 @@
 .scene3d {
   position: absolute;
   top: 0;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   transform-style: preserve-3d;
   transform: translateZ(calc(var(--cameraZ) * 1px));
@@ -484,6 +484,12 @@
   transition: opacity 0.5s ease-in;
   transition-delay: 3s;
   z-index: 1;
+}
+
+@media screen and (max-height: 750px) {
+  .open-comments-btn-container {
+   bottom: 2%;
+  }
 }
 
 .show {

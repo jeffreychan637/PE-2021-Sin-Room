@@ -278,6 +278,8 @@ function main() {
       if (fontSize) {
         $('.final-scene-words-2 h1').css('font-size', `${fontSize}px`);
       }
+    } else if (language === 'es') {
+      $('.sin-room-comment-submission-container .submit').css('width', '121px');
     }
   }
 

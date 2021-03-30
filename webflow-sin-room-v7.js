@@ -7,6 +7,8 @@
 main();
 
 
+
+
 function isDebugMode() {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get('sin_room_debug') === 'true';

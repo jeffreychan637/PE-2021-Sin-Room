@@ -610,7 +610,8 @@ function main() {
         commentsContainer[0].insertBefore( fragment, commentsContainer[0].firstChild );
         mansonry.prepended(newComment);
 
-        const newCommentRef = firebase.database().ref(`${language}/sin`).push();
+        let commentSlug = language.replace('ca', 'zh');
+        const newCommentRef = firebase.database().ref(`${commentSlug}/sin`).push();
         newCommentRef.set({
             name,
             text,
@@ -639,7 +640,8 @@ function main() {
     if (firebase) {
       const database = firebase.database();
       const comments = [];
-      database.ref(`${language}/sin`).limitToLast(300).once('value', function(snapshot) {
+      let commentSlug = language.replace('ca', 'zh');
+      database.ref(`${commentSlug}/sin`).limitToLast(300).once('value', function(snapshot) {
         snapshot.forEach((childSnapshot) => {
           comments.unshift(childSnapshot.val());
         });

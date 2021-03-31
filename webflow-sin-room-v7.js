@@ -303,6 +303,13 @@ function main() {
     };
   }
 
+  function startScroll() {
+    $('.scroll-to-move').css('opacity', '100%');
+      if (prodFlag) {
+        enableScroll();
+      }
+  }
+
   function onBeginNarrationUpdates() {
     const time = openingNarrationAudio.currentTime;
     if (time > 10 && time < 12) {
@@ -355,9 +362,14 @@ function main() {
 
 
     if (time > 44 && time < 45.5) {
-      $('.scroll-to-move').css('opacity', '100%');
-      if (prodFlag) {
-        enableScroll();
+      if (!(['zh-hant', 'zh-hans'].includes(language))) {
+        startScroll();
+      }
+    }
+
+    if (time > 70 && time < 71.5) {
+      if (['zh-hant', 'zh-hans'].includes(language)) {
+        startScroll();
       }
     }
 

@@ -280,6 +280,10 @@ function main() {
       }
     } else if (language === 'es') {
       $('.sin-room-comment-submission-container .submit').css('width', '121px');
+    } else if (language === 'ja') {
+      $('#mark-passage-2').css('line-height', `31px`);
+      $('.mark-7-text.w-richtext h2').css('line-height', `30px`);
+      $('.final-scene-words-2 h2').css('line-height', `60px`);
     }
   }
 

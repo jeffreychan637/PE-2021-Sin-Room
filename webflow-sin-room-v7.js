@@ -586,7 +586,18 @@ function main() {
     mansonry = new Masonry('.sin-room-comments', {
       itemSelector: ".sin-room-comment-item"
     });
+  }
 
+  function waitForFirebase() {
+    if (!firebase) {
+      setTimeout(waitForFirebase, 1000);
+    } else {
+      setupCommentEventListeners();
+      fetchComments();
+    }
+  }
+
+  function setupCommentEventListeners() {
     $('#sin-room-comment-text').on('input', function() {
       if ($('#sin-room-comment-text').val().trim()) {
         $('#sin-room-comment-submit').addClass('submit-allowed');
@@ -626,28 +637,35 @@ function main() {
         $('.sin-room-comment-submission-message').css('display', 'block');
       }
       event.preventDefault();
-    })
-  }
-
-  function waitForFirebase() {
-    if (!firebase) {
-      setTimeout(waitForFirebase, 1000);
-    } else {
-      fetchComments();
-    }
+    });
   }
 
   function fetchComments() {
     // Firebase script must run first and define firebase as global variable
     if (firebase) {
       const database = firebase.database();
+      let connectionRef = database.ref(".info/connected");
       const comments = [];
       let commentSlug = language.replace('ca', 'zh');
-      database.ref(`${commentSlug}/sin`).limitToLast(300).once('value', function(snapshot) {
-        snapshot.forEach((childSnapshot) => {
-          comments.unshift(childSnapshot.val());
-        });
-        setupCommentsSection(comments);
+      connectionRef.on("value", (snap) => {
+        if (snap.val() === true) {
+          database.ref(`${commentSlug}/sin`).limitToLast(300).once('value', function(snapshot) {
+            snapshot.forEach((childSnapshot) => {
+              comments.unshift(childSnapshot.val());
+            });
+            setupCommentsSection(comments);
+          });
+        } else {
+          if (commentsContainer.children().length < 1) {
+            $.getJSON('https://passion-experience.s3.amazonaws.com/assets/2021/data/comments.json', function(result) {
+              let commentsFromFile = result[commentSlug]['sin'];
+              Object.keys(commentsFromFile).forEach(function(key){
+                comments.unshift(commentsFromFile[key]);
+              });
+            });
+            setupCommentsSection(comments);
+          }
+        }
       });
     }
   }
